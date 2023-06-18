@@ -32,7 +32,7 @@ function renderCourses(courses) {
 			<li>
 				<h4>${course.name}</h4>
 				<p>${course.description}</p>
-				<button name="btn-delete" data-id = ${course.id}>Xoá</button>
+				<button onclick="handleDeleteCourse(${course.id})">Xoá</button>
 			</li>
 		`;
 	});
@@ -53,15 +53,10 @@ function handleCreateForm() {
 function createCourses(data, callback) {
 	var options = {
 		method: "POST", // *GET, POST, PUT, DELETE, etc.
-		mode: "cors", // no-cors, *cors, same-origin
-		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-		credentials: "same-origin", // include, *same-origin, omit
 		headers: {
 			"Content-Type": "application/json",
 			// 'Content-Type': 'application/x-www-form-urlencoded',
 		},
-		redirect: "follow", // manual, *follow, error
-		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 		body: JSON.stringify(data), // body data type must match "Content-Type" header
 	};
 	fetch(coursesApi, options)
@@ -69,4 +64,22 @@ function createCourses(data, callback) {
 			return response.json();
 		})
 		.then(callback);
+}
+
+function deleteCourse(id) {
+	var options = {
+		method: "DELETE", // *GET, POST, PUT, DELETE, etc.
+		headers: {
+			"Content-Type": "application/json",
+			// 'Content-Type': 'application/x-www-form-urlencoded',
+		},
+	};
+	fetch(`${coursesApi}/${id}`, options)
+		.then(function (response) {
+			return response.json();
+		})
+		.then(function () {});
+}
+function handleDeleteCourse(id) {
+	deleteCourse(id);
 }
